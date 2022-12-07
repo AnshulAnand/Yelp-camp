@@ -20,7 +20,10 @@
 <body>
   <%- include('../partials/_navbar.ejs') %>
   <!-- render body -->
-  <main class="container"><%- body %></main>
+  <main class="container">
+    <%- include('../partials/_flash.ejs') %>
+    <%- body %>
+  </main>
   <%- include('../partials/_footer.ejs') %>
 </body>
 </html>

@@ -9,6 +9,8 @@ const ExpressError = require('./utils/ExpressError');
 const { campgroundSchema, reviewSchema } = require('./schemas');
 const ejsMate = require('ejs-mate');
 const path = require('path');
+const session = require('express-session');
+const flash = require('connect-flash');
 const express = require('express');
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
@@ -17,11 +19,31 @@ const app = express();
 
 mongoose.connect(process.env.MONGOURI, () => console.log('connected to mongodb...'));
 
+const sessionConfig = {
+  secret: 'cwhjjewjhkhewkj',
+  resave: false,
+  saveUninitialised: true,
+  cookies: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  },
+};
+
+app.use(session(sessionConfig));
+app.use(flash());
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
 // using routes
 app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);

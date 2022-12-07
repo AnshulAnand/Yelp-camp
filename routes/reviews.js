@@ -25,16 +25,18 @@ router.post(
     camp.reviews.push(review);
     await review.save();
     await camp.save();
+    req.flash('success', 'Created new review!');
     res.redirect(`/campgrounds/${camp._id}`);
   })
-);
-
-router.delete(
-  '/:reviewId',
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
+  );
+  
+  router.delete(
+    '/:reviewId',
+    catchAsync(async (req, res) => {
+      const { id, reviewId } = req.params;
+      campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+      await Review.findByIdAndDelete(reviewId);
+      req.flash('success', 'Review deleted.');
     res.redirect(`/campgrounds/${id}`);
   })
 );
