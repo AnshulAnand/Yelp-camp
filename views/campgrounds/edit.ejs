@@ -6,32 +6,32 @@
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input class="form-control" type="text" name="campground[title]" id="title" value="<%= camp.title %>" required/>
-        <div class="validate-feedback">Looks good!</div>
+        <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">A campground always have a title!</div>
       </div>
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input class="form-control" type="text" name="campground[location]" id="location" value="<%= camp.location %>" required/>
-        <div class="validate-feedback">Looks good!</div>
+        <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Location required</div>
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Image Url</label>
         <input class="form-control" type="text" name="campground[image]" id="image" value="<%= camp.image %>" required/>
-        <div class="validate-feedback">Looks good!</div>
+        <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Image always helps!</div>
       </div>
       <label for="price" class="form-label">Price</label>
       <div class="input-group mb-3">
         <span class="input-group-text fw-bold" id="basic-addon1">₹</span>
         <input type="text" class="form-control" placeholder="0.00" name="campground[price]" value="<%= camp.price %>" required>
-        <div class="validate-feedback">Looks good!</div>
+        <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Price required</div>
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" name="campground[description]" id="description" required><%= camp.description %></textarea>
-        <div class="validate-feedback">Looks good!</div>
+        <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Add a description to tell people more about your campground!</div>
       </div>
       <div class="mb-3"><button class="btn btn-success" type="submit">Add Campground</button></div>
