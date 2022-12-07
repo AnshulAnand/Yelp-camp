@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate.ejs') %>
 <div class="row my-3">
-  <div class="col-6">
+  <div class="col-6" id="card-1">
     <div class="card my-3">
       <img src="<%= camp.image %>" class="card-img-top" alt="campground image">
       <div class="card-body">
@@ -13,11 +13,13 @@
       </ul>
       <div class="card-body">
         <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-warning">Edit</a>
-        <a href="/campgrounds" class="btn btn-danger">Delete</a>
+        <a href="/campgrounds/<%= camp._id %>/delete" class="btn btn-danger">Delete</a>
       </div>
     </div>
   </div>
-  <div class="col-6 my-3">
+  <!-- Force next columns to break to new line -->
+  <div class="w-100" id="div-to-hide"></div>
+  <div class="col-6" id="card-2" style="margin-block: 1rem;">
     <h2>Leave a review</h2>
     <form class="validate-form my-3" action="/campgrounds/<%= camp._id %>/reviews" method="post" novalidate>
       <div class="mb-3">
@@ -45,3 +47,38 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  function responsiveCard() {
+    const screenWidth = screen.width;
+    const card1 = document.getElementById('card-1');
+    const card2 = document.getElementById('card-2');
+    const div = document.getElementById('div-to-hide');
+    if (screenWidth <= 768) {
+      if (card1.classList.contains('col-6')) {
+        card1.classList.remove('col-6');
+        card1.classList.add('col-12');
+      }
+      if (card2.classList.contains('col-6')) {
+        card2.classList.remove('col-6');
+        card2.classList.add('col-12');
+      }
+      if (div.classList.contains('d-none')) {
+        div.classList.remove('d-none');
+      }
+    } else {
+      if (card1.classList.contains('col-12')) {
+        card1.classList.remove('col-12');
+        card1.classList.add('col-6');
+      }
+      if (card2.classList.contains('col-12')) {
+        card2.classList.remove('col-12');
+        card2.classList.add('col-6');
+      }
+      if (!div.classList.contains('d-none')) {
+        div.classList.add('d-none');
+      }
+    }
+  }
+  window.onresize = responsiveCard();
+</script>
