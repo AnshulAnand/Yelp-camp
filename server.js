@@ -2,11 +2,8 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const campground = require('./models/campground');
-const Review = require('./models/review');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const User = require('./models/user');
 const { campgroundSchema, reviewSchema } = require('./schemas');
 const ejsMate = require('ejs-mate');
 const path = require('path');
@@ -15,22 +12,28 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const express = require('express');
+const app = express();
+
+// require models
+const campground = require('./models/campground');
+const User = require('./models/user');
+const Review = require('./models/review');
+
+// require routes
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
-const review = require('./models/review');
-const app = express();
 
 mongoose.connect(process.env.MONGOURI, () => console.log('connected to mongodb...'));
 
 const sessionConfig = {
-  secret: 'cwhjjewjhkhewkj',
+  secret: 'secret',
   resave: false,
-  saveUninitialised: true,
+  saveUninitialized: true,
   cookies: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
 
@@ -48,6 +51,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
+  // console.log(req.session)
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
