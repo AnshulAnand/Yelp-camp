@@ -3,7 +3,30 @@
   <div class="row my-3">
     <div class="col-6" id="card-1">
       <div class="card my-3">
-        <img src="<%= camp.image %>" class="card-img-top" alt="campground image" />
+        <!-- <img src="<%= camp.image %>" class="card-img-top" alt="campground image" /> -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <% camp.images.forEach((img, index) => { %>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= img.index %>" class="<%= index === 0 ? 'active' : '' %>" aria-current="<%= index === 0 ? 'true' : '' %>" aria-label="Slide <%= img.index + 1%>"></button>
+            <% }) %>
+          </div>
+          <div class="carousel-inner">
+            <% camp.images.forEach((img, index) => { %>
+            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+              <img src="<%= img.url %>" class="d-block w-100" alt="campground image">
+            </div>
+            <% }) %>
+          <% if (camp.images > 1) { %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+        </div>
         <div class="card-body">
           <h5 class="card-title"><%= camp.title %></h5>
           <p class="card-text"><%= camp.description %></p>
