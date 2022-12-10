@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate.ejs') %>
-<div class="container my-3" style="max-width: 600px;">
+<div class="container my-5" style="max-width: 600px">
   <h1 class="text-center">Login</h1>
   <form action="/login" method="post" class="validate-form" novalidate>
     <div class="mb-3">
@@ -8,12 +8,6 @@
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Username required</div>
     </div>
-    <!-- <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input class="form-control" type="email" name="email" id="email" required/>
-      <div class="valid-feedback">Looks good!</div>
-      <div class="invalid-feedback">Email required</div>
-    </div> -->
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
       <input class="form-control" type="password" name="password" id="password" required/>
@@ -21,5 +15,6 @@
       <div class="invalid-feedback">Password required</div>
     </div>
     <div class="mb-3"><button class="btn btn-success" type="submit">Login</button></div>
+    <div class="mb-3">New user? <a href="/register" class="link-danger">Register here.</a></div>
   </form>
 </div>

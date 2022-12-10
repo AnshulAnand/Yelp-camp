@@ -3,20 +3,14 @@
   <div class="row my-3">
     <div class="col-6" id="card-1">
       <div class="card my-3">
-        <!-- <img src="<%= camp.image %>" class="card-img-top" alt="campground image" /> -->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <% camp.images.forEach((img, index) => { %>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= img.index %>" class="<%= index === 0 ? 'active' : '' %>" aria-current="<%= index === 0 ? 'true' : '' %>" aria-label="Slide <%= img.index + 1%>"></button>
-            <% }) %>
-          </div>
           <div class="carousel-inner">
             <% camp.images.forEach((img, index) => { %>
-            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+            <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
               <img src="<%= img.url %>" class="d-block w-100" alt="campground image">
             </div>
             <% }) %>
-          <% if (camp.images > 1) { %>
+          <% if (camp.images.length > 1) { %>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
@@ -42,6 +36,7 @@
             <a href="/campgrounds/<%= camp._id %>/delete" class="btn btn-danger">Delete</a>
           </div>
           <% } %>
+        </div>
       </div>
     </div>
     <!-- Force next columns to break to new line -->
@@ -89,37 +84,4 @@
     </div>
 </div>
 
-  <script>
-    function responsiveCard() {
-      const screenWidth = screen.width;
-      const card1 = document.getElementById('card-1');
-      const card2 = document.getElementById('card-2');
-      const div = document.getElementById('div-to-hide');
-      if (screenWidth <= 768) {
-        if (card1.classList.contains('col-6')) {
-          card1.classList.remove('col-6');
-          card1.classList.add('col-12');
-        }
-        if (card2.classList.contains('col-6')) {
-          card2.classList.remove('col-6');
-          card2.classList.add('col-12');
-        }
-        if (div.classList.contains('d-none')) {
-          div.classList.remove('d-none');
-        }
-      } else {
-        if (card1.classList.contains('col-12')) {
-          card1.classList.remove('col-12');
-          card1.classList.add('col-6');
-        }
-        if (card2.classList.contains('col-12')) {
-          card2.classList.remove('col-12');
-          card2.classList.add('col-6');
-        }
-        if (!div.classList.contains('d-none')) {
-          div.classList.add('d-none');
-        }
-      }
-    }
-    window.onresize = responsiveCard();
-  </script>
+<script src="/js/responsive-cards.js"></script>
