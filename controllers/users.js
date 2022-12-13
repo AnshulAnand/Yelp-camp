@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { sendEmail } = require('../utils/sendEmail');
 
 module.exports.renderRegister = (req, res) => {
   res.render('users/register');
@@ -11,6 +12,7 @@ module.exports.register = async (req, res) => {
     const registerdUser = await User.register(user, password);
     req.login(registerdUser, err => {
       if (err) return next(err);
+      sendEmail(username, email);
       req.flash('success', 'Welcome to YelpCamp!');
       res.redirect('/campgrounds');
     });

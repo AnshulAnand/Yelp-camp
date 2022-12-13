@@ -3,7 +3,7 @@ const map = new mapboxgl.Map({
   container: 'map',
   // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
   style: 'mapbox://styles/mapbox/dark-v11',
-  center: [78.9629, 20.5937],
+  center: [-103.59179687498357, 40.66995747013945],
   zoom: 3,
 });
 
@@ -36,12 +36,12 @@ map.on('load', () => {
         'step',
         ['get', 'point_count'],
         '#51bbd6',
-        100,
+        10,
         '#f1f075',
-        750,
+        30,
         '#f28cb1',
       ],
-      'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+      'circle-radius': ['step', ['get', 'point_count'], 20, 10, 30, 30, 40],
     },
   });
 
@@ -116,3 +116,6 @@ map.on('load', () => {
     map.getCanvas().style.cursor = '';
   });
 });
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
