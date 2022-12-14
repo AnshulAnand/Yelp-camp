@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const mongoose = require('mongoose');
+const mongoSanitize = require('express-mongo-sanitize');
 const methodOverride = require('method-override');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
@@ -49,6 +50,7 @@ app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize()); // To remove data using these defaults
 
 app.use((req, res, next) => {
   // console.log(req.session)
