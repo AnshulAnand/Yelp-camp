@@ -1,38 +1,61 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-const mongoose = require('mongoose');
-const mongoSanitize = require('express-mongo-sanitize');
-const methodOverride = require('method-override');
-const catchAsync = require('./utils/catchAsync');
-const ExpressError = require('./utils/ExpressError');
-const { campgroundSchema, reviewSchema } = require('./schemas');
-const ejsMate = require('ejs-mate');
 const path = require('path');
+const ejsMate = require('ejs-mate');
+const mongoose = require('mongoose');
+const passport = require('passport');
 const session = require('express-session');
 const flash = require('connect-flash');
-const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const mongoSanitize = require('express-mongo-sanitize');
+const ExpressError = require('./utils/ExpressError');
+const methodOverride = require('method-override');
 const express = require('express');
 const app = express();
 
+const MongoDBStore = require('connect-mongo')(session);
+
 // require models
-const campground = require('./models/campground');
 const User = require('./models/user');
-const Review = require('./models/review');
 
 // require routes
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 const users = require('./routes/users');
 
-mongoose.connect(process.env.MONGOURI, () => console.log('connected to mongodb...'));
+// storing environment variables
+const secret = process.env.SECRET || 'secret'
+const MONGOURI = process.env.MONGOURI
+
+// connect to mongodb
+mongoose.connect(MONGOURI, () => console.log('connected to mongodb...'));
+
+app.engine('ejs', ejsMate);
+app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize({ replaceWith: '_', }));
+
+const store = new MongoDBStore({
+  url: MONGOURI,
+  secret: secret,
+  touchAfter: 24 * 60 * 60,
+});
+
+store.on('error', e => {
+  console.log('Session store error (server.js)', e);
+});
 
 const sessionConfig = {
-  secret: 'secret',
+  store: store,
+  name: 'session',
+  secret: secret,
   resave: false,
   saveUninitialized: true,
-  cookies: {
+  cookie: {
     httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -40,20 +63,14 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-app.engine('ejs', ejsMate);
-app.set('view engine', 'ejs');
-app.use(methodOverride('_method'));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(mongoSanitize()); // To remove data using these defaults
 
 app.use((req, res, next) => {
-  // console.log(req.session)
   res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
@@ -74,8 +91,8 @@ app.all('*', (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  const { statusCode = 500, message = 'Something went wrong :(' } = error;
-  if (!error.message) error.message = 'Oh no, something went wrong!';
+  const { statusCode = 500 } = error;
+  if (!error.message) error.message = 'Oh no, something went wrong :(';
   res.status(statusCode).render('error', { error });
 });
 
