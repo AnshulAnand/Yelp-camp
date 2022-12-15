@@ -2,7 +2,7 @@ const form = document.getElementById('form-search');
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  searchCampgrounds(e.target.elements[0].value.toLowerCase());
+  searchCampgrounds(e.target.elements[0].value.toLowerCase().trim());
 });
 
 function searchCampgrounds (searchText) {
