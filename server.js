@@ -82,10 +82,12 @@ app.use('/campgrounds', campgrounds);
 app.use('/campgrounds/:id/reviews', reviews);
 app.use('/', users);
 
+// rendering home page
 app.get('/', (req, res) => {
   res.render('home')
 });
 
+// displaying error if user visits any other route
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));
 });
