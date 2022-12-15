@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
 });
 
 new mapboxgl.Marker()
-  .setLngLat([-74.5, 40])
+  .setLngLat(campground.geometry.coordinates)
   .setPopup(
     new mapboxgl.Popup({ offset: 25 })
       .setHTML(
@@ -17,7 +17,7 @@ new mapboxgl.Marker()
         `
       )
   )
-  .addTo(map)
+  .addTo(map);
 
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());

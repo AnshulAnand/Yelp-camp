@@ -2,12 +2,15 @@ const nodemailer = require('nodemailer');
 
 module.exports.sendEmail = (name, email) => {
   const mail = `
-      <div style="background: #333; padding: 10px">
+      <div style="background: #333;">
+      <div style="padding: 10px; max-width: 500px">
+      <img src="https://res.cloudinary.com/ddjauevre/image/upload/v1670938992/YelpCamp/logo_izldgp.png">
       <h3 style="color: #fff">Welcome to Yelpcamp!</h3>
       <h4 style="color: #fff">Hi ${name}</h4>
       <p style="color: #fff; line-height: 20px">Thank you for choosing Yelpcamp, now you can easily find campgrounds with Yelpcamp.
       You can also make your own campground, go online and find customers across the globe!</p>
       <p style="color: #fff; line-height: 20px">Email used for login: ${email}</p>
+      </div>
       </div>
       `;
 
