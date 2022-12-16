@@ -7,6 +7,10 @@
     <button class="btn btn-primary" type="submit" id="btn-search">Search</button>
   </div>
 </form>
+<div class="p-3" id="not-found" style="display: none;">
+  <img src="/images/face-frown-regular.svg" class="rounded mx-auto d-block" alt="Not Found" width="200px">
+  <p class="text-center fs-3 fw-bold mt-2" style="color: #ccc;">No Campgrounds Found!</p>
+</div>
 <% for (let campground of campgrounds) { %>
   <div class="card my-3" data-campground>
     <div class="row">

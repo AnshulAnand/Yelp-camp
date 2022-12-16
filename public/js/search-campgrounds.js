@@ -6,7 +6,9 @@ form.addEventListener('submit', e => {
 });
 
 function searchCampgrounds (searchText) {
+  const notFoundImage = document.getElementById('not-found');
   const campgroundCards = document.querySelectorAll('[data-campground]'); 
+  let found = false;
   campgroundCards.forEach(el => {
     if (
       el
@@ -19,8 +21,14 @@ function searchCampgrounds (searchText) {
         .includes(searchText)
     ) {
       el.style.display = 'block';
+      found = true;
     } else {
       el.style.display = 'none';
     }
   });
+  if (found == false) {
+    notFoundImage.style.display = 'block';
+  } else {
+    notFoundImage.style.display = 'none';
+  }
 }
