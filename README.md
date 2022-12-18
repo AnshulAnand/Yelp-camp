@@ -26,6 +26,14 @@ Use a [dotenv](https://www.npmjs.com/package/dotenv) file for environment variab
 npm install
 ```
 
+### Seeds
+
+Run `node seeds/index` for dummy data
+
+```
+node seeds/index
+```
+
 ### Run
 
 ```
