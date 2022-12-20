@@ -2,7 +2,7 @@
 
 ## Project Description
 
-Yelp Camp is a place where you can see campgrounds You can also make your campround go online.
+Yelp Camp is a place where you can see campgrounds located throughout the world. You can also make your campround go online.
 
 ## Technologies Used
 
@@ -18,7 +18,14 @@ Install [Nodejs](https://nodejs.org/en/) and run the following commands in termi
 
 ### Environment variables
 
-Use a [dotenv](https://www.npmjs.com/package/dotenv) file for environment variables
+Use a [dotenv](https://www.npmjs.com/package/dotenv) file for the following environment variables
+
+- CLOUDINARY_CLOUD_NAME
+- CLOUDINARY_KEY
+- CLOUDINARY_SECRET
+- MAPBOX_TOKEN
+- MONGOURI
+- SECRET
 
 ### Install Dependencies
 
